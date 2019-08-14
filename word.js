@@ -25,6 +25,9 @@ Word.prototype.guess = function(charGuess) {
     return letterFound;
 }
 
+module.exports = Word;
+
+/*
 let newWord = new Word("Silly Rabbit");
 console.log(newWord + "");
 newWord.guess("r");
@@ -35,3 +38,4 @@ newWord.guess("l");
 console.log(newWord + "");
 newWord.guess("i");
 console.log(newWord + "");
+*/
