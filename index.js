@@ -1,6 +1,7 @@
 let fs = require("fs");
 let inquirer = require("inquirer");
 let Word = require("./Word");
+var colors = require('colors');
 
 let wordBank = [
     "Benjamin Franklin",
@@ -28,7 +29,7 @@ function startGame() {
     mysteryInventor = new Word( 
         wordBank[ Math.floor( Math.random() * (wordBank.length-1) ) ]
     );
-    console.log(mysteryInventor + "");
+    console.log(mysteryInventor + "\n");
     guessLetter();
 }
 
@@ -37,11 +38,29 @@ function guessLetter() {
         {
             type: "input",
             message: "Guess a letter!:",
-            name: "guess"
+            name: "guess",
+            validate: function(char) { 
+                let letters = /^[A-Za-z]+$/;
+                if (char.match(letters)) {
+                    return true;
+                } else {
+                    return "Please enter a letter.";
+                } 
+            }
         }
     ]).then(function(response) {
-        mysteryInventor.guess(response.guess)
-        console.log(mysteryInventor + "");
-        guessLetter();
+        //if (mysteryInventor.validate) {
+            if (mysteryInventor.guess(response.guess)) {
+                console.log("\nCORRECT!".green);
+            } else {
+                console.log("\nINCORRECT!".red);
+
+            }
+
+            console.log("\n" + mysteryInventor + "\n");
+            guessLetter();
+        //} else {
+        //    console.log("Please guess letters only, please!");
+        //}
     });
 }
