@@ -20,6 +20,7 @@ let wordBank = [
 let guessesRemaining = 0;
 let mysteryInventor;
 let solution = "";
+let previousGuesses = [];
 
 console.log("Welcome to " +"Mystery Inventor".bold.blue + "! Guess letters to reveal the name of a famous inventor!");
 
@@ -28,6 +29,7 @@ startGame();
 // ------------------------------------------------------------------------------ //
 
 function startGame() {
+    previousGuesses = [];
     guessesRemaining = 10;
     solution = wordBank[ Math.floor( Math.random() * (wordBank.length-1) ) ];
     mysteryInventor = new Word(solution);
@@ -41,17 +43,22 @@ function guessLetter() {
             type: "input",
             message: "Guess a letter:",
             name: "guess",
+            filter: function(val) {return val[0];} ,
             validate: function(char) { 
                 let letters = /^[A-Za-z]+$/;
                 if (char.match(letters)) {
-                    return true;
+                    if (!previousGuesses.includes(char)) {
+                        return true;
+                    } else {
+                        return "You already guessed that!";
+                    }
                 } else {
                     return "Please enter a letter.";
                 } 
             }
         }
     ]).then(function(response) {
-
+        previousGuesses.push(response.guess);
         if (mysteryInventor.guess(response.guess)) {
             console.log("\nCORRECT!".green);
             console.log(`\n${mysteryInventor}\n`);
@@ -67,7 +74,7 @@ function guessLetter() {
             guessesRemaining--;
             console.log("\nGuesses remaining: " + guessesRemaining);
             if (guessesRemaining <= 0) { // game over
-                console.log(`You're out of guesses! The correct answer is ${solution.toUpperCase().green}.`);
+                console.log(`You're out of guesses!`.bold.red + ` The correct answer is ${solution.toUpperCase().green}.`);
                 console.log("\nNext puzzle!");
                 startGame();
             } else {
@@ -75,7 +82,7 @@ function guessLetter() {
                 guessLetter();
             }
         }
-
+        
         
     });
 }
