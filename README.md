@@ -16,7 +16,7 @@ A Node.js word guess game by Todd F. Bartelt
 
 ## Preview
 
-![Preview 1](https://github.com/bartelto/word-guess-node/documentation/word-guess-preview.gif "Preview 1")
+![Preview 1](https://github.com/bartelto/word-guess-node/blob/master/documentation/word-guess-preview.gif "Preview 1")
 
 ## NPM packages used
 - **```colors```** Allows some basic styling and coloring of text in the console.
