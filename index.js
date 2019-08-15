@@ -1,4 +1,3 @@
-let fs = require("fs");
 let inquirer = require("inquirer");
 let Word = require("./Word");
 var colors = require('colors');
