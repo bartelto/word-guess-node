@@ -19,6 +19,9 @@ let wordBank = [
 ];
 let guessesRemaining = 0;
 let mysteryInventor;
+let solution = "";
+
+console.log("Welcome to " +"Mystery Inventor".bold.blue + "! Guess letters to reveal the name of a famous inventor!");
 
 startGame();
 
@@ -26,10 +29,9 @@ startGame();
 
 function startGame() {
     guessesRemaining = 10;
-    mysteryInventor = new Word( 
-        wordBank[ Math.floor( Math.random() * (wordBank.length-1) ) ]
-    );
-    console.log(mysteryInventor + "\n");
+    solution = wordBank[ Math.floor( Math.random() * (wordBank.length-1) ) ];
+    mysteryInventor = new Word(solution);
+    console.log(`\n${mysteryInventor}\n`);
     guessLetter();
 }
 
@@ -37,7 +39,7 @@ function guessLetter() {
     inquirer.prompt([
         {
             type: "input",
-            message: "Guess a letter!:",
+            message: "Guess a letter:",
             name: "guess",
             validate: function(char) { 
                 let letters = /^[A-Za-z]+$/;
@@ -49,18 +51,31 @@ function guessLetter() {
             }
         }
     ]).then(function(response) {
-        //if (mysteryInventor.validate) {
-            if (mysteryInventor.guess(response.guess)) {
-                console.log("\nCORRECT!".green);
+
+        if (mysteryInventor.guess(response.guess)) {
+            console.log("\nCORRECT!".green);
+            console.log(`\n${mysteryInventor}\n`);
+
+            if (mysteryInventor.solved()) {
+                console.log("Neato!".bold.blue + " You solved the puzzle! Let's try another one.")
+                startGame();
             } else {
-                console.log("\nINCORRECT!".red);
-
+                guessLetter();
             }
+        } else {
+            console.log("\nINCORRECT!".red);
+            guessesRemaining--;
+            console.log("\nGuesses remaining: " + guessesRemaining);
+            if (guessesRemaining <= 0) { // game over
+                console.log(`You're out of guesses! The correct answer is ${solution.toUpperCase().green}.`);
+                console.log("\nNext puzzle!");
+                startGame();
+            } else {
+                console.log(`\n${mysteryInventor}\n`);
+                guessLetter();
+            }
+        }
 
-            console.log("\n" + mysteryInventor + "\n");
-            guessLetter();
-        //} else {
-        //    console.log("Please guess letters only, please!");
-        //}
+        
     });
 }

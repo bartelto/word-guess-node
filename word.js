@@ -25,17 +25,12 @@ Word.prototype.guess = function(charGuess) {
     return letterFound;
 }
 
-module.exports = Word;
+Word.prototype.solved = function() {
+    let allGuessed = true;
+    this.letters.forEach( function(letter) {
+        allGuessed = letter.wasGuessed && allGuessed;
+    });
+    return allGuessed;
+}
 
-/*
-let newWord = new Word("Silly Rabbit");
-console.log(newWord + "");
-newWord.guess("r");
-console.log(newWord + "");
-newWord.guess("b");
-console.log(newWord + "");
-newWord.guess("l");
-console.log(newWord + "");
-newWord.guess("i");
-console.log(newWord + "");
-*/
+module.exports = Word;

@@ -21,10 +21,3 @@ Letter.prototype.guess = function(charGuess) {
 }
 
 module.exports = Letter;
-
-/*
-let newLetter = new Letter("g");
-console.log(newLetter + "");
-console.log(newLetter.guess("g"));
-console.log(newLetter+ "");
-*/
